@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>MyMovies - Edit</title>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width, maximum-scale=2" />
+<link type="text/css" rel="stylesheet" href="Style.css" />
+<script type="text/javascript" src="Script.js"></script>
+<style type="text/css">
+#tIMDB{color:#777777;}
+#tIMDB DIV{border-bottom:solid 1px #bbbbff;}
+#tIMDB INPUT[type="button"]{font-size:11px;}
+.imdbImg{max-width:80px;}
+</style>
+</head>
+<body>
+
+<div class="gMenu">
+	<div class="iEditName">MyMovies</div> 
+	<a id="aMenu"></a>
+	<input type="button" value="Listagem" onclick="fGo('List.html')" title="Apresenta todos os filmes cadastrados" />
+	<input type="button" value="Novo" onclick="fGo('Edit.html')" title="Entra no modo de edição para incluir novo filme" />
+	<span class="Msg">usuario@mymovies.toy</span>
+</div>
+
+<form name="fmForm" method="post" action="EditController.html">
+	<input type="hidden" name="iAction" value="" />
+	<div class="gTitle">
+		<div class="iEditName">Edição</div>
+		<input type="hidden" name="iId" value="" />
+		<input type="text" name="iIMDB" value="tt2474972" disabled="disabled" />
+	</div>
+	<div class="iEdit">
+		<div class="iEditName">Título:</div>
+		<input name="iTitulo" class="iEditText" type="text" size="50" maxlength="80" placeholder="..título do filme.." /><input type="button" value=">" onclick="oIMDB.FindTitle()" title="Busca no IMDB" />
+	</div>
+	<div class="iEdit">
+		<div class="iEditName">Data:</div>
+		<input name="iData" class="iEditDate" type="text" size="20" maxlength="16" title="dd/mm/aaaa" placeholder="..assistiu em dd/mm/aaaa.." />
+	</div>
+	<div class="iEdit">
+		<div class="iEditName">Local:</div>
+		<input name="iLocal" class="iEditText" type="text" size="50" maxlength="80" placeholder="..local onde assistiu.." />
+	</div>
+	<div class="iEdit">
+		<div class="iEditName">Público:</div>
+		<input name="iPublico" class="iEditText" type="text" size="50" maxlength="80" placeholder="..assistiu junto com.." />
+	</div>
+
+	<div class="iEdit">
+		<div class="iEditName">Gênero:</div>
+		<input name="iGenero" class="iEditText" type="text" size="50" maxlength="20" placeholder="..gênero do filme.." />
+	</div>
+	<div class="iEdit">
+		<div class="iEditName">País:</div>
+		<input name="iPais" class="iEditText" type="text" size="50" maxlength="50" placeholder="..país de origem.." />
+	</div>
+	<div class="iEdit">
+		<div class="iEditName">Nota:</div>
+		<input name="iNota" type="radio" value="1" required="required" checked="checked" />1
+		<input name="iNota" type="radio" value="2" />2
+		<input name="iNota" type="radio" value="3" />3
+		<input name="iNota" type="radio" value="4" />4
+		<input name="iNota" type="radio" value="5" />5
+	</div>
+	<div class="iEdit">
+		<div class="iEditName">Comentários:</div>
+		<textarea name="iComentario" class="iEditTextArea" rows="4" cols="50" maxlength="500" placeholder="..inclua suas impressões sobre o filme.."></textarea>
+	</div>
+
+	<div class="gAction">
+		<input type="button" value="Salvar" onclick="oForm.Save()" title="Armazena os dados informados" />
+		<input type="button" value="Desvincular" onclick="oIMDB.Clear()" title="Desconecta o filme do cadastro da referência do IMDB" />
+		<input type="button" value="Limpar" onclick="oForm.Clear()" title="Limpa os dados do formulário" />
+		<input type="button" value="Excluir" onclick="oForm.Delete()" title="Apaga definitivamente os dados deste filme" />
+		<input type="button" value="Voltar" onclick="fGo('List.html')" title="Cancela edição e volta para lista de filmes" />
+	</div>
+</form>
+<br />
+
+<div id="gIMDB" style="display:none">
+	<div class="gTitle">Dados do IMDB</div>
+	<div id="dMsg" class="Msg"></div>
+	<div id="tIMDB"></div>
+</div>
+
+
+<div id="templateIMDB" style="display:none">
+	<div>
+		<table>
+			<tr>
+				<td class="iEditName"><a href="[urlIMDB]" target="imdb"><img class="imdbImg" src="[urlPoster]" /></a></td>
+				<td class="iEditText">
+					Título: <b><a href="[urlIMDB]" target="imdb"><span id="t[idIMDB]">[title]</span></a></b><br />
+					Original: [originalTitle] &nbsp;&nbsp;&nbsp; <span class="Msg">[IMDB: [idIMDB]]</span><br />
+					Ano: [year]<br />
+					Duração: [runtime]<br />
+					Gênero: <span id="g[idIMDB]">[genres]</span><br />
+					País: <span id="p[idIMDB]">[countries]</span><br />
+					Locações: [filmingLocations]<br />
+					Sinopse:<br />
+					[simplePlot]<br />
+					<input type="button" id="v[idIMDB]" value="Vincular" onclick="oIMDB.Connect(this)" title="Conectar este filme ao cadastro, sem copiar dados" />
+					<input type="button" id="f[idIMDB]" value="Vincular e preencher" onclick="oForm.Fill(this)" title="Conectar este filme ao cadastro e preenche Titulo, Gênero e País" />
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+var oMsg = document.getElementById('dMsg');
+var oForm = new cForm(document.fmForm);
+var oIMDB = new cIMDB(document.fmForm);
+var oAJAX = new cAJAX();
+
+if (document.fmForm.iIMDB.value != '') {
+	oIMDB.Fill("idIMDB=" +document.fmForm.iIMDB.value);
+}
+
+function fGetIMDB(strIMDB) {
+	var jj = [], strHTML = '', str = '', str9 = '';
+	if (strIMDB.substr(0, 1) != '[') {
+		jj = [JSON.parse(strIMDB)];
+	} else {
+		jj = JSON.parse(strIMDB);
+	};
+	strIMDB = '';
+	for (var ii = 0; ii < jj.length; ii++) {
+		str = document.getElementById('templateIMDB').innerHTML;
+		str = str.replace('[title]', jj[ii].title);
+		str = str.replace('[idIMDB]', jj[ii].idIMDB).replace('[idIMDB]', jj[ii].idIMDB);
+		str = str.replace('[idIMDB]', jj[ii].idIMDB).replace('[idIMDB]', jj[ii].idIMDB);
+		str = str.replace('[idIMDB]', jj[ii].idIMDB).replace('[idIMDB]', jj[ii].idIMDB);
+		str = str.replace('[title]', jj[ii].title);
+		str = str.replace('[originalTitle]', jj[ii].originalTitle);
+		str = str.replace('[urlPoster]', jj[ii].urlPoster).replace('[urlPoster]', jj[ii].urlPoster);
+		str = str.replace('[urlIMDB]', jj[ii].urlIMDB);
+		str = str.replace('[year]', jj[ii].year);
+		str = str.replace('[genres]', typeof (jj[ii].genres) == 'undefined' ? '' : jj[ii].genres.join());
+		str = str.replace('[runtime]', typeof (jj[ii].runtime) == 'undefined' ? '' : jj[ii].runtime.join());
+		str = str.replace('[countries]', typeof (jj[ii].countries) == 'undefined' ? '' : jj[ii].countries.join());
+		str = str.replace('[filmingLocations]', typeof (jj[ii].filmingLocations) == 'undefined' ? '' : jj[ii].filmingLocations.join());
+		str = str.replace('[simplePlot]', jj[ii].simplePlot);
+		str9 += str;
+	};
+	document.getElementById('tIMDB').innerHTML = str9;
+	str = '';
+	str9 = '';
+	document.getElementById('tIMDB').style.display = 'block';
+	document.getElementById('gIMDB').style.display = 'block';
+	oMsg.innerText = '';
+}
+
+function cForm(oo) {
+	this.oo = oo;
+	this.Clear = function () {
+		this.oo.iAction.value = '';
+		this.oo.iId.value = '';
+		this.oo.iIMDB.value = '';
+		this.oo.iTitulo.value = '';
+		this.oo.iData.value = '';
+		this.oo.iLocal.value = '';
+		this.oo.iPublico.value = '';
+		this.oo.iGenero.value = '';
+		this.oo.iPais.value = '';
+		this.oo.iNota[0].checked = true;
+		this.oo.iNota.value = '1';
+		this.oo.iComentario.value = '';
+	}
+	this.Fill = function (tt) {
+		var id = tt.id.substr(1, 9);
+		this.oo.iIMDB.disabled = false;
+		this.oo.iIMDB.value = id;
+		this.oo.iIMDB.disabled = true;
+		this.oo.iTitulo.value = document.getElementById('t' + id).innerText;
+		this.oo.iGenero.value = document.getElementById('g' + id).innerText;
+		this.oo.iPais.value = document.getElementById('p' + id).innerText;
+	};
+	this.Save = function () {
+		if (this.oo.iTitulo.value != '' && this.oo.iData.value != '') {
+			oMsg.innerText = 'Salvando, aguarde...';
+			this.oo.iAction.value = (this.oo.iId.value == '') ? 'INSERT' : 'UPDATE';
+			this.oo.iIMDB.disabled = false;
+			this.oo.submit();
+			this.oo.iIMDB.disabled = true;
+		} else {
+			oMsg.innerText = 'Dados insuficientes para salvar';
+		};
+	};
+	this.Delete = function () {
+		if (fmForm.iId.value == '') {
+			oMsg.innerText = 'Exclusão não é possível, este cadastro não foi salvo';
+		} else {
+			oMsg.innerText = 'Apagando, aguarde...';
+			this.oo.iAction.value = 'DELETE';
+			this.oo.submit();
+		};
+	};
+}
+
+function cIMDB(oo) {
+	this.oo = oo;
+	this.Connect = function (tt) {
+		this.oo.iIMDB.disabled = false;
+		this.oo.iIMDB.value = tt.id.substr(1, 9);
+		this.oo.iIMDB.disabled = true;
+	};
+	this.Clear = function () {
+		this.oo.iIMDB.disabled = false;
+		this.oo.iIMDB.value = '';
+		this.oo.iIMDB.disabled = true;
+	};
+	this.FindTitle = function () {
+		if (this.oo.iTitulo.value.length > 2) {
+			this.Fill("limit=10&title=" + this.oo.iTitulo.value);
+		} else {
+			oMsg.innerText = 'Consulta cancelada, titulo pequeno';
+		}
+	}
+	this.Fill = function (filter) {
+		document.getElementById('gIMDB').style.display = 'block';
+		document.getElementById('tIMDB').style.display = 'none';
+		oAJAX.Url = 'http://www.myapifilms.com/imdb?format=JSON&land=pr-br&' + filter;
+		oAJAX.FunctionName = 'fGetIMDB()';
+		oAJAX.Execute();
+	}
+}
+</script>
+</body>
+</html>
+

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>MyMovies - Home</title>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width, maximum-scale=2" />
+<link type="text/css" rel="stylesheet" href="Style.css" />
+</head>
+<body>
+
+<div class="gTitle">Credenciais</div>
+<form name="fmForm" method="post" action="UserController.html">
+	<input name="iAction" type="hidden" value="" />
+	<div class="iEdit">
+		<div class="iEditName">Usuário:</div>
+		<input name="iUsuario" type="text" size="30" maxlength="30" placeholder="..digite seu e-mail.." />
+	</div>
+	<div class="iEdit">
+		<div class="iEditName">Senha:</div>
+		<input name="iSenha" type="text" size="30" maxlength="20" placeholder="..senha entre 6 e 16 dígitos.." />
+	</div>
+	<div id="SenhaNova" class="iEdit" style="display:none">
+		<div class="iEdit">
+			<div class="iEditName">Nova senha:</div>
+			<input name="iSenha1" type="text" size="30" maxlength="20" placeholder="..digite nova.." />
+		</div>
+		<div class="iEdit">
+			<div class="iEditName">Repita senha:</div>
+			<input name="iSenha2" type="text" size="30" maxlength="20" placeholder="..repita a nova senha.." />
+		</div>
+	</div>
+	<div class="iEdit">
+		<div class="iEditName"></div>
+		<input type="button" onclick="oSubmit.Autentication()" value="Entrar" />
+		<input type="button" onclick="fSenhaNova()" value="Nova senha" />
+	</div>
+</form>
+
+<div id="dMsg"></div>
+<br />
+<br />
+Deseja se cadastrar?<br />
+- Basta digitar seu e-mail e uma senha para acesso.<br />
+Esqueceu a senha?<br />
+- Informe seu e-mail e <a href="javascript:return false;" onclick="oSubmit.Forget()">pressione aqui</a>.
+Nas duas situações será enviada uma mensagem com orientações.<br />
+
+<script type="text/javascript">
+var oMsg = document.getElementById('dMsg');
+var oSubmit = new cSubmit();
+
+function fSenhaNova() {
+	document.getElementById('SenhaNova').style.display = 'block';
+}
+
+function cSubmit() {
+	this.oo = document.fmForm;
+	this.CheckUser = function () {
+		var msg = '';
+		var user = this.oo.iUsuario.value.replace(' ', '').toLowerCase();
+		if (user.length < 6 || user.length > 30 || user.indexOf('@') == 0) msg = msg + 'Digite um e-mail válido; ';
+		this.oo.iUsuario.value = user;
+		return msg;
+	}
+	this.CheckPwd = function () {
+		var msg = '';
+		var senha = oo.iSenha.value;
+		if (senha.length < 6 || senha.length > 16) msg = msg + 'Senha deve possuir entre 6 e 16 dígitos; ';
+		return msg;
+	}
+	this.Autentication = function () {
+		var msg = '';
+		oMsg.innerText = '';
+		msg += this.CheckUser;
+		msg += this.CheckPwd;
+		if (msg == '') {
+			oMsg.innerText = 'Verificando credenciais, aguarde...';
+			this.oo.iAction.value = 'AUT';
+			this.oo.submit();
+		} else {
+			oMsg.innerText = 'ERRO: ' + msg;
+		}
+	}
+	this.Forget = function () {
+		var msg = '';
+		oMsg.innerText = '';
+		msg += this.CheckUser;
+		if (this.oo.iSenha1.value == this.oo.iSenha2 && this.oo.iSenha1 != '') {
+			senha = this.oo.iSenha1.value;
+			if (senha.length < 6 || senha.length > 16) msg = msg + 'Senha nova deve possuir entre 6 e 16 dígitos; ';
+		} else {
+			msg = msg + 'Senhas digitadas não são idênticas; ';
+		}
+		if (msg == '') {
+			oMsg.innerText = 'Encaminhando solicitação,... verifique na sua caixa postal.';
+			this.oo.iAction.value = 'FORGET';
+			this.oo.submit();
+		} else {
+			oMsg.innerText = 'ERRO: ' + msg;
+		}
+	}
+}
+</script>
+</body>
+</html>
+

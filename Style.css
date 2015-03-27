@@ -1,0 +1,122 @@
+BODY{
+	margin:0;
+	padding:0;
+	border:0;
+	font-family:Arial,Helvetica,sans-serif;
+	font-size:12px;
+}
+TEXTAREA{
+	border:solid 1px #ccddee;
+	font-family:Arial,Helvetica,sans-serif;
+	font-size:12px;
+}
+TEXTAREA:hover{
+	border:1px solid #ffbb11;
+}
+TEXTAREA:focus{
+	border:1px solid #ffbb11;
+	background-color:#ffff88;
+}
+INPUT{
+	border:solid 1px #ccddee;
+	padding:2px;
+	font-family:Arial,Helvetica,sans-serif;
+	font-size:12px;
+}
+INPUT[type="button"]{
+	padding:2px 8px 2px 8px;
+	cursor:pointer;
+}
+INPUT:hover{
+	border:1px solid #ffcc11;
+}
+INPUT:focus {
+	border:1px solid #ffbb11;
+	background-color:#ffff88;
+}
+.gMenu{
+	padding-left:6px;
+	background-color:#aabbcc;
+	color:#ffffff;
+	font-size:14px;
+	font-weight:bold;
+}
+.gMenu INPUT[type="button"]{
+	border-color:#bbccdd;
+	background-color:#aabbcc;
+}
+.gMenu INPUT[type="button"]:hover{
+	border:1px solid #ffaa00;
+	background-color:#ffcc11;
+}
+.gTitle{
+	margin:8px 0 8px 0;
+	padding-left:6px;
+	font-size:14px;
+	font-weight:bold;
+	border-bottom:solid 1px #aabbcc;
+}
+.gTitle INPUT[type="text"]{
+	border:0;
+	color:#cccccc;
+	background-color:#ffffff;
+}
+.gAction{
+	padding-left:6px;
+	font-size:14px;
+}
+.gAction INPUT:hover{
+	border:1px solid #ffaa00;
+	background-color:#ffcc11;
+}
+.Msg{color:#bbbbbb;}
+
+
+.tList{
+	padding:0 2px 2px 0;
+	border:0 2px 2px 0;
+	margin:1px 2px 2px 1px;
+}
+.tList THEAD{
+	background-color:#cccccc;
+	vertical-align:top;
+	font-weight:bold;
+}
+.tList TBODY{
+	border-bottom:solid 1px #f6f6f6;
+	vertical-align:top;
+	cursor:pointer;
+}
+.tList TBODY TR TD{
+	border-bottom:solid 1px #f6f6f6;
+}
+.tList TBODY TR:hover TD{
+	border-bottom:solid 1px #ffaa00;
+	background-color:#ffffbb;
+	cursor:pointer;
+}
+
+
+.iEdit{margin:4px;}
+.iEditName{
+	padding-left:6px;
+	vertical-align:top;
+	min-width:80px;
+	display:inline-table;
+}
+.iEditText{
+	vertical-align:top;
+	max-width:300px;
+	min-width:200px;
+}
+.iEditTextArea{
+	vertical-align:top;
+	max-width:300px;
+	min-width:200px;
+}
+.iEditDate{
+	vertical-align:top;
+	max-width:200px;
+	min-width:150px;
+}
+

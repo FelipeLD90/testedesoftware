@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width, maximum-scale=2" />
+<link type="text/css" rel="stylesheet" href="Style.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script> 
+</head>
+<body ng-app="MyApp">
+
+	POST<br />
+	-- Action, iUsuario, iSenha, iSenha1<br />
+	Verificar conteudo<br />
+	Consultar base<br />
+	<br />
+	Se iAction=AUT<br />
+	-- Se existir<br />
+	---- Verificar senha<br />
+	---- Se conferir<br />
+	------ Salvar usuario na session<br />
+	------ Ir para List<br />
+	---- Se nao conferir<br />
+	------ Enviar e-mail notificando<br />
+	------ Retornar com mensagem<br />
+	-- Se nao existir<br />
+	---- Criar na base<br />
+	---- Enviar e-mail de apresentação com senha<br />
+	---- Ir para Edit<br />
+	<br />
+	Se iAction=FORGET<br />
+	-- Se existir<br />
+	---- Enviar e-mail com nova senha<br />
+	---- Retornar com mensagem<br />
+	-- Se nao existir, retornar com mensagem<br />
+
+</body>
+</html>
+

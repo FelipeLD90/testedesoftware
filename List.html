@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>MyMovies - List</title>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width, maximum-scale=2" />
+<link type="text/css" rel="stylesheet" href="Style.css" />
+<script type="text/javascript" src="Script.js"></script>
+</head>
+<body>
+
+<div class="gMenu">
+	<div class="iEditName">MyMovies</div>
+	<a id="aMenu"></a> 
+	<input type="button" value="Listagem" onclick="fGo('List.html')" title="Apresenta todos os filmes cadastrados" />
+	<input type="button" value="Novo" onclick="fGo('Edit.html')" title="Entra no modo de edição para incluir novo filme" />
+	<span class="Msg">usuario@mymovies.toy</span>
+</div>
+
+<div class="gTitle">Listagem</div>
+<table class="tList">
+	<thead>
+		<tr><td>Filme</td><td>Data</td><td>Gênero</td><td>País</td></tr>
+	</thead>
+	<tbody>
+	<tr onclick="fGo(1)">
+		<td>Alien: Resurrection</td>
+		<td>19/03/2015 19:35</td>
+		<td>Action, Sci-Fi, Thriller</td>
+		<td>USA</td>
+	</tr>
+	<tr onclick="fGo(2)">
+		<td>The Incredible Hulk</td>
+		<td>20/03/2015 19:35</td>
+		<td>Action, Adventure, Sci-Fi</td>
+		<td>USA</td>
+	</tr>
+	</tbody>
+</table>
+<br />
+
+</body>
+</html>
+
