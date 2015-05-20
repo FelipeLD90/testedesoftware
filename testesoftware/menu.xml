@@ -1,0 +1,8 @@
+<menu>
+    <menuitem label='Cadastro de Filmes'>                
+        <action>FilmeFormAdvanced</action>            
+    </menuitem>
+    <menuitem label='Listagem de Filmes'>
+        <action>FilmeList</action>
+    </menuitem>
+</menu>

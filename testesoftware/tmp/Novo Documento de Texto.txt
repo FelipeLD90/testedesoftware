@@ -1,0 +1,7 @@
+sql.php
+valores_liq_ent_est_fpg
+dados_adicionais_debitos
+dados_adicionais_creditos
+
+
+pg_rel_ctaspag_por_banco.php
